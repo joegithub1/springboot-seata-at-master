@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.joe.seata</groupId>
+    <artifactId>springboot-seata-at-master</artifactId>
+    <version>0.0.1</version>
+    <name>seata-at-master</name>
+    <packaging>pom</packaging>
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <java.version>11</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring-boot.version>2.6.13</spring-boot.version>
+        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
+        <dubbo.spring.boot.version>2.7.16</dubbo.spring.boot.version>
+        <nacos.version>2.1.1</nacos.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <guava.version>31.1-jre</guava.version>
+        <mysql.version>8.0.31</mysql.version>
+        <hutool.version>5.8.15</hutool.version>
+        <knife4j.version>4.0.0</knife4j.version>
+        <seata-spring-boot-starter.version>1.7.0</seata-spring-boot-starter.version>
+    </properties>
+
+    <modules>
+        <module>seata-common</module>
+        <module>seata-generator</module>
+    </modules>
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- 数据库操作相关 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--mybatis-plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--
+            Exception in thread "main" java.lang.NoClassDefFoundError: com/google/common/collect/Maps
+            -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--seata-->
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring-boot-starter</artifactId>
+                <version>1.7.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
+</project>

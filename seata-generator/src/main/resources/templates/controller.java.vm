@@ -1,0 +1,91 @@
+package ${package.Controller};
+
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.youlai.system.common.base.BaseController;
+import com.youlai.system.common.base.BasePageQuery;
+import com.youlai.system.common.result.PageResult;
+import com.youlai.system.common.result.Result;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
+
+/**
+ * <p>
+ * $!{table.comment} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#set($entityName = ${entity.substring(0,1).toLowerCase()}+${entity.substring(1)})
+@RestController
+@RequestMapping(value = {"/api/v1/${table.entityPath}"},
+		produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "${table.controllerName}", description = "$!{table.comment}")
+public class ${table.controllerName} extends BaseController<${entity}> {
+
+    @Autowired
+    private ${table.serviceName} ${entityName}Service;
+    
+    @Override
+	public IService<${entity}> getService() {
+		return ${entityName}Service;
+	}
+
+    @Operation(summary = "$!{table.comment}-列表查询")
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public Result<?> list(@RequestBody ${entity} $entityName, @RequestHeader("Authorization") String token){
+        return Result.success();
+    }
+
+    @Operation(summary = "$!{table.comment}-分页查询")
+    @RequestMapping(value = "/page", method = RequestMethod.POST)
+    public PageResult<?> page(@RequestBody BasePageQuery page, @RequestHeader("Authorization") String token){
+        IPage<?> result = null;
+        return PageResult.success(result);
+    }
+
+    @Operation(summary = "$!{table.comment}-保存")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Result<?> save(@RequestBody ${entity} $entityName, @RequestHeader("Authorization") String token){
+        boolean result = getService().save($entityName);
+        return Result.judge(result);
+    }
+
+	@Operation(summary = "$!{table.comment}-更新", security = @SecurityRequirement(name = HttpHeaders.AUTHORIZATION))
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    public Result<?> update(@PathVariable String id, @RequestBody ${entity} $entityName, @RequestHeader("Authorization") String token){
+        Assert.isTrue(StrUtil.isNotBlank(id), "ID不能为空");
+        boolean result = getService().updateById($entityName);
+        return Result.judge(result);
+    }
+
+    @Operation(summary = "$!{table.comment}-详情")
+    @Parameter(description = "$!{table.comment}-ID")
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    public Result<?> detail(@PathVariable String id){
+        Assert.isTrue(StrUtil.isNotBlank(id), "ID不能为空");
+        ${entity} byId = getService().getById(id);
+        return Result.success(byId);
+	}
+
+    @Operation(summary = "$!{table.comment}-删除")
+    @Parameter(description = "$!{table.comment}-ID")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public Result<?> delete(@PathVariable String id){
+        Assert.isTrue(StrUtil.isNotBlank(id), "ID不能为空");
+        boolean result = getService().removeById(id);
+        return Result.judge(result);
+    }
+
+}
