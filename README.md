@@ -1,2 +1,9 @@
-# springboot-seata-at-master
-seata at模式
+# springboot-seata-master
+seata 父工程模块
+seata xa数据强一致性模式
+  1、application.yml 中 seata.data-source-proxy-mode 改为 XA
+  2、参与seata事务所有涉及到的数据库都需要增加 undo_log表
+
+seata at数据最终一致性模式 （seata默认模式）
+  1、application.yml 中 seata.data-source-proxy-mode 改为 AT
+  2、数据库不需要undo_log表
